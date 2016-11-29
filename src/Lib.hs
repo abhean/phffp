@@ -18,10 +18,22 @@ printDoubleLet n =
   in print doubleN
 
 testLetToWhere = x * 3 + y
-  where x = 3
+  where x :: Int
+        x = 3
         y = 1000
 
 testLetToWhere2 = z / x + y
   where x = 7
         y = negate x
         z = y * 10
+
+mainPrint2 :: IO()
+mainPrint2 = do
+  putStrLn "Count to four"
+  putStr "one, two"
+  putStr ", three, and"
+  putStr " four!"
+
+rvrs :: [a] -> [a]
+rvrs [] = []
+rvrs s = rvrs (drop 1 s) ++ take 1 s
