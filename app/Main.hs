@@ -1,6 +1,7 @@
 module Main where
 
 import Lib
+import Mood
 
 main :: IO ()
-main = print $ rvrs "Hello, my name is Kique!"
+main = print $ changeMood Woot

@@ -1,7 +1,9 @@
 module Lib where
 
+import Mood
+
 someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+someFunc = print $ changeMood Blah
 
 someOtherFunc = let x = 4
                     y = 3
@@ -37,3 +39,8 @@ mainPrint2 = do
 rvrs :: [a] -> [a]
 rvrs [] = []
 rvrs s = rvrs (drop 1 s) ++ take 1 s
+
+--x = (+)
+--
+--f xs = w `x` 1
+--  where w = length xs
