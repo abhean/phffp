@@ -1,2 +1,4 @@
+import Sing
+
 main :: IO ()
-main = print "Test TODO"
+main = print sing

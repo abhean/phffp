@@ -44,3 +44,42 @@ rvrs s = rvrs (drop 1 s) ++ take 1 s
 --
 --f xs = w `x` 1
 --  where w = length xs
+
+--breakId :: a -> a
+--breakId x = do
+--  x
+--  x
+
+myFunc :: (x -> y) -> (y -> z) -> c -> (a, x) -> (a, z)
+myFunc xToY yToZ _ (a, x) = (a, yToZ . xToY $ x)
+
+--data Woot
+--data Blah
+--
+--f :: Woot -> Blah
+--f = undefined
+--
+--g :: (Blah, Woot) -> (Blah, Blah)
+--g (x, y) = (x, f y)
+
+--f :: Int -> String
+--f = undefined
+--
+--g:: String -> Char
+--g = undefined
+--
+--h :: Int -> Char
+--h = g . f
+
+data X
+data Y
+data Z
+
+q :: X -> Z
+q = undefined
+
+w :: Y -> Z
+w = undefined
+
+e :: (X, Y) -> (Z, Z)
+e (x, y) = (q x, w y)
