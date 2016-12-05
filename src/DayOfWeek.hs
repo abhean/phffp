@@ -10,7 +10,7 @@ instance Eq DayOfWeek where
   Friday == Friday = True
   Saturday == Saturday = True
   Sunday == Sunday = True
-  _ == _ = False
+--  _ == _ = False
 
 data Date = Date DayOfWeek Int
 
