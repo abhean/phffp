@@ -1,6 +1,7 @@
 module DayOfWeek where
 
 data DayOfWeek = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
+  deriving (Show)
 
 instance Eq DayOfWeek where
   Monday == Monday = True
@@ -10,7 +11,12 @@ instance Eq DayOfWeek where
   Friday == Friday = True
   Saturday == Saturday = True
   Sunday == Sunday = True
---  _ == _ = False
+  _ == _ = False
+
+instance Ord DayOfWeek where
+  compare dw dw'
+    | dw == dw' = EQ
+
 
 data Date = Date DayOfWeek Int
 
