@@ -89,3 +89,16 @@ bindExp x = let y = 5 in
               let z = y + x in
                 "the integer was: " ++ show x ++ " and y was: "
                 ++ show y ++ " and z was: " ++ show z
+
+functionC x y = case x > y of
+  True -> x
+  False -> y
+
+nums x =
+  case compare x 0 of
+    LT -> -1
+    GT -> 1
+    EQ -> 0
+
+flip' :: (a -> b -> c) -> b -> a -> c
+flip' f x y = f y x
