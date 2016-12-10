@@ -124,3 +124,26 @@ avgGrade x
   | y >= 0.59 = 'D'
   | otherwise = 'F'
   where y = x / 100
+
+tenDigits :: Integral a => a -> a
+tenDigits x = d
+  where (xLast, _) = x `divMod` 10
+        (_, d) = xLast `divMod` 10
+
+hunsD :: Integral a => a -> a
+hunsD x = xLast `mod` 10
+  where xLast = x `div` 100
+
+foldBool3 :: a -> a -> Bool -> a
+foldBool3 x y True = x
+foldBool3 x y False = y
+
+foldBool3' :: a -> a -> Bool -> a
+foldBool3' x y p = case p of
+  True -> x
+  False ->y
+
+foldBool3'' :: a -> a -> Bool -> a
+foldBool3'' x y p
+  | p = x
+  | otherwise = y
