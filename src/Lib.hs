@@ -90,9 +90,9 @@ bindExp x = let y = 5 in
                 "the integer was: " ++ show x ++ " and y was: "
                 ++ show y ++ " and z was: " ++ show z
 
-functionC x y = case x > y of
-  True -> x
-  False -> y
+--functionC x y = case x > y of
+--  True -> x
+--  False -> y
 
 nums x =
   case compare x 0 of
@@ -102,3 +102,25 @@ nums x =
 
 flip' :: (a -> b -> c) -> b -> a -> c
 flip' f x y = f y x
+
+myAbs :: (Ord a, Num a) => a -> a
+myAbs x
+  | x < 0   = -x
+  | otherwise = x
+
+bloodNa :: Integer -> String
+bloodNa x
+  | x < tooLowBloodNa = "too low"
+  | x > tooHighBloodNa = "too high"
+  | otherwise = "just right"
+  where tooLowBloodNa = 135
+        tooHighBloodNa = 145
+
+avgGrade :: (Fractional a, Ord a) => a -> Char
+avgGrade x
+  | y >= 0.9 = 'A'
+  | y >= 0.8 = 'B'
+  | y >= 0.7 = 'C'
+  | y >= 0.59 = 'D'
+  | otherwise = 'F'
+  where y = x / 100
