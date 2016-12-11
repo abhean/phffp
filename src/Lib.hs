@@ -138,12 +138,46 @@ foldBool3 :: a -> a -> Bool -> a
 foldBool3 x y True = x
 foldBool3 x y False = y
 
-foldBool3' :: a -> a -> Bool -> a
-foldBool3' x y p = case p of
-  True -> x
-  False ->y
+--foldBool3' :: a -> a -> Bool -> a
+--foldBool3' x y p = case p of
+--  True -> x
+--  False ->y
 
 foldBool3'' :: a -> a -> Bool -> a
 foldBool3'' x y p
   | p = x
   | otherwise = y
+
+factorial :: Integral a => a -> a
+factorial 0 = 1
+factorial n = n * factorial (n - 1)
+
+incTimes :: (Eq a, Num a) => a -> a -> a
+incTimes 0 n = n
+incTimes t n = 1 + incTimes (t - 1) n
+
+applyTimes :: (Eq a, Num a) => a -> (b -> b) -> b -> b
+applyTimes 0 _ = id
+applyTimes n f = f . applyTimes (n - 1) f
+
+fibonacci :: Integral a => a -> a
+fibonacci 0 = 0
+fibonacci 1 = 1
+fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
+
+fibonacci' :: Integral a => a -> a
+fibonacci' 0 = 0
+fibonacci' 1 = 1
+fibonacci' n = fibonacci2 2 1 1
+  where fibonacci2 n' pf ppf
+          | n == n' = pf + ppf
+          | otherwise = fibonacci2 (n' + 1) (pf + ppf) pf
+
+-- WIP:
+--fibonacci'' :: Integral a => a -> a
+--fibonacci'' 0 = 0
+--fibonacci'' 1 = 1
+--fibonacci'' n = foldl' fibonacci2 2 (1, 1)
+--  where fibonacci2 n' (pf, ppf)
+--          | n == n' = pf + ppf
+--          | otherwise = fibonacci2 (n' + 1) (pf + ppf, pf)
