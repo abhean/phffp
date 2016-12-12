@@ -181,3 +181,29 @@ fibonacci' n = fibonacci2 2 1 1
 --  where fibonacci2 n' (pf, ppf)
 --          | n == n' = pf + ppf
 --          | otherwise = fibonacci2 (n' + 1) (pf + ppf, pf)
+
+dividedBy :: Integral a => a -> a -> Maybe (a, a)
+x `dividedBy` 0 = Nothing
+x `dividedBy` y = Just (signum (x * y) * result, signum x * quotient)
+  where (result, quotient) = go (abs x) (abs y) 0
+        go dividend divisor result
+          | dividend < divisor = (result, dividend)
+          | otherwise = go (dividend - divisor) divisor (result + 1)
+
+sum' :: (Eq a, Num a) => a -> a
+sum' n = go n 0
+  where go 0 acc = acc
+        go n acc = go (n - 1) (acc + n)
+
+product' :: (Integral a) => a -> a -> a
+product' x y
+    | x < y = go x y 0
+    | otherwise = go y x 0
+  where go _ 0 _ = 0
+        go 0 _ acc = acc
+        go x y acc = go (x - 1) y (acc + y)
+
+mc91 :: Integral a => a -> a
+mc91 x
+    | x > 100 = x - 10
+    | otherwise = mc91 . mc91 $ x + 11
