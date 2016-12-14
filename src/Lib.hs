@@ -207,3 +207,18 @@ mc91 :: Integral a => a -> a
 mc91 x
     | x > 100 = x - 10
     | otherwise = mc91 . mc91 $ x + 11
+
+eftOrd :: Ordering -> Ordering -> [Ordering]
+eftOrd GT GT = [GT]
+eftOrd GT  _ = []
+eftOrd  f  t = reverse . go f t $ []
+ where go f t l
+        | f == t = f:l
+        | t == GT = []
+        | otherwise = go (succ f) t (f:l)
+
+myWords :: String -> [String]
+myWords [] = []
+myWords s = firstWord : myWords rest
+  where firstWord = takeWhile (/= ' ') s
+        rest = dropWhile (== ' ') . dropWhile (/= ' ') $ s
