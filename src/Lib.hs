@@ -1,6 +1,7 @@
 module Lib where
 
 import Mood
+import Data.Char
 
 someFunc :: IO ()
 someFunc = print $ changeMood Blah
@@ -222,3 +223,32 @@ myWords [] = []
 myWords s = firstWord : myWords rest
   where firstWord = takeWhile (/= ' ') s
         rest = dropWhile (== ' ') . dropWhile (/= ' ') $ s
+
+myZip :: [a] -> [b] -> [(a, b)]
+myZip = myZipWith (,)
+
+myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+myZipWith _ [] _ = []
+myZipWith _ _ [] = []
+myZipWith f (x:xs) (y:ys) = f x y : myZipWith f xs ys
+
+filterUpperCase :: String -> String
+filterUpperCase = filter isUpper
+
+capitalizeFirstLetter :: String -> String
+capitalizeFirstLetter [] = []
+capitalizeFirstLetter (x:xs) = toUpper x : xs
+
+capitalizeWord :: String -> String
+capitalizeWord [] = []
+capitalizeWord (x:xs) = toUpper x : capitalizeWord xs
+
+capitalizeWord' :: String -> String
+capitalizeWord' = map toUpper
+
+initial :: String -> Maybe Char
+initial [] = Nothing
+initial (x:xs) = Just . toUpper $ x
+
+initial' :: String -> Char
+initial' = toUpper . head
