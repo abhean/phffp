@@ -1,6 +1,7 @@
 module Lib where
 
 import Mood
+import Data.Char
 
 someFunc :: IO ()
 someFunc = print $ changeMood Blah
@@ -232,3 +233,91 @@ myFilter _ [] = []
 myFilter p (x:xs)
   | p x = x : myFilter p xs
   | otherwise = myFilter p xs
+
+myZip :: [a] -> [b] -> [(a, b)]
+myZip = myZipWith (,)
+
+myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+myZipWith _ [] _ = []
+myZipWith _ _ [] = []
+myZipWith f (x:xs) (y:ys) = f x y : myZipWith f xs ys
+
+filterUpperCase :: String -> String
+filterUpperCase = filter isUpper
+
+capitalizeFirstLetter :: String -> String
+capitalizeFirstLetter [] = []
+capitalizeFirstLetter (x:xs) = toUpper x : xs
+
+capitalizeWord :: String -> String
+capitalizeWord [] = []
+capitalizeWord (x:xs) = toUpper x : capitalizeWord xs
+
+capitalizeWord' :: String -> String
+capitalizeWord' = map toUpper
+
+initial :: String -> Maybe Char
+initial [] = Nothing
+initial (x:xs) = Just . toUpper $ x
+
+initial' :: String -> Char
+initial' = toUpper . head
+
+myOr :: [Bool] -> Bool
+myOr [] = False
+myOr (x:xs) = x || myOr xs
+
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny _ [] = False
+myAny p (x:xs) = p x || myAny p xs
+
+myElem :: Eq a => a -> [a] -> Bool
+myElem _ [] = False
+myElem e (x:xs) = (x == e) || myElem e xs
+
+myElem' :: Eq a => a -> [a] -> Bool
+myElem' e = myAny (e==)
+
+myReverse :: [a] -> [a]
+myReverse [] = []
+myReverse (x:xs) = xs ++ [x]
+
+myReverse' :: [a] -> [a]
+myReverse' l = go l []
+  where go [] r = r
+        go (x:xs) r = go xs (x:r)
+
+squish :: [[a]] -> [a]
+squish [] = []
+squish (x:xs) = x ++ squish xs
+
+squishMap :: (a -> [b]) -> [a] -> [b]
+squishMap f = squish . map f
+
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+myMaximumBy _ [x] = x
+myMaximumBy comp (x:xs)
+  | comp x maximumXs == GT = x
+  | otherwise = maximumXs
+  where maximumXs = myMaximumBy comp xs
+
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+myMinimumBy _ [x] = x
+myMinimumBy comp (x:xs)
+  | comp x minimumXs == LT = x
+  | otherwise = minimumXs
+  where minimumXs = myMinimumBy comp xs
+
+myMaximum :: Ord a => [a] -> a
+myMaximum = myMaximumBy compare
+
+myMinimum :: Ord a => [a] -> a
+myMinimum = myMinimumBy compare
+
+myFoldr :: (a -> b -> b) -> b -> [a] -> b
+myFoldr _ acc [] = acc
+myFoldr f acc (x:xs) = f x (myFoldr f acc xs)
+
+myFoldl :: (b -> a -> b) -> b -> [a] -> b
+myFoldl _ acc [] = acc
+myFoldl f acc (x:xs) = myFoldl f (f acc x) xs
