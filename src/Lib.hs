@@ -330,3 +330,21 @@ myScanl f acc l = acc : case l of
 wordsAvgLength x = fromIntegral (sumWordsLengths x) / fromIntegral (numWords x)
   where sumWordsLengths = sum . map length . words
         numWords = length . words
+
+myAndFold :: [Bool] -> Bool
+myAndFold = foldr (&&) True
+
+myOrFold :: [Bool] -> Bool
+myOrFold = foldr (||) False
+
+myAnyFold :: (a -> Bool) -> [a] -> Bool
+myAnyFold f = foldr ((||) . f) False
+
+myElemFold :: Eq a => a -> [a] -> Bool
+myElemFold elem = foldr ((||) . (== elem)) False
+
+myElemAny :: Eq a => a -> [a] -> Bool
+myElemAny elem = myAnyFold (== elem)
+
+myReverseFold :: [a] -> [a]
+myReverseFold = foldr (flip (++) . (:[])) []
