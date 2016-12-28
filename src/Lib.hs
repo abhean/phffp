@@ -249,9 +249,9 @@ capitalizeFirstLetter :: String -> String
 capitalizeFirstLetter [] = []
 capitalizeFirstLetter (x:xs) = toUpper x : xs
 
-capitalizeWord :: String -> String
-capitalizeWord [] = []
-capitalizeWord (x:xs) = toUpper x : capitalizeWord xs
+--capitalizeWord :: String -> String
+--capitalizeWord [] = []
+--capitalizeWord (x:xs) = toUpper x : capitalizeWord xs
 
 capitalizeWord' :: String -> String
 capitalizeWord' = map toUpper
@@ -263,9 +263,9 @@ initial (x:xs) = Just . toUpper $ x
 initial' :: String -> Char
 initial' = toUpper . head
 
-myOr :: [Bool] -> Bool
-myOr [] = False
-myOr (x:xs) = x || myOr xs
+--myOr :: [Bool] -> Bool
+--myOr [] = False
+--myOr (x:xs) = x || myOr xs
 
 myAny :: (a -> Bool) -> [a] -> Bool
 myAny _ [] = False
@@ -282,17 +282,17 @@ myReverse :: [a] -> [a]
 myReverse [] = []
 myReverse (x:xs) = xs ++ [x]
 
-myReverse' :: [a] -> [a]
-myReverse' l = go l []
-  where go [] r = r
-        go (x:xs) r = go xs (x:r)
+--myReverse' :: [a] -> [a]
+--myReverse' l = go l []
+--  where go [] r = r
+--        go (x:xs) r = go xs (x:r)
 
-squish :: [[a]] -> [a]
-squish [] = []
-squish (x:xs) = x ++ squish xs
+--squish :: [[a]] -> [a]
+--squish [] = []
+--squish (x:xs) = x ++ squish xs
 
-squishMap :: (a -> [b]) -> [a] -> [b]
-squishMap f = squish . map f
+--squishMap :: (a -> [b]) -> [a] -> [b]
+--squishMap f = squish . map f
 
 myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
 myMaximumBy _ [x] = x
@@ -321,3 +321,12 @@ myFoldr f acc (x:xs) = f x (myFoldr f acc xs)
 myFoldl :: (b -> a -> b) -> b -> [a] -> b
 myFoldl _ acc [] = acc
 myFoldl f acc (x:xs) = myFoldl f (f acc x) xs
+
+myScanl:: (b -> a -> b) -> b -> [a] -> [b]
+myScanl f acc l = acc : case l of
+    [] -> []
+    (x:xs) -> myScanl f (f acc x) xs
+
+wordsAvgLength x = fromIntegral (sumWordsLengths x) / fromIntegral (numWords x)
+  where sumWordsLengths = sum . map length . words
+        numWords = length . words
