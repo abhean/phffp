@@ -348,3 +348,18 @@ myElemAny elem = myAnyFold (== elem)
 
 myReverseFold :: [a] -> [a]
 myReverseFold = foldr (flip (++) . (:[])) []
+
+myMapFold :: (a -> b) -> [a] -> [b]
+myMapFold f = foldr ((:) . f) []
+
+myFilterFold :: (a -> Bool) -> [a] -> [a]
+myFilterFold p = foldr (\x acc -> if p x then x:acc else acc) []
+
+mySquishFold :: [[a]] -> [a]
+mySquishFold = foldr (++) []
+
+mySquishMapFold :: (a -> [b]) -> [a] -> [b]
+mySquishMapFold f = foldr ((++) . f) []
+
+mySquishFold' :: [[a]] -> [a]
+mySquishFold' = mySquishMapFold id
