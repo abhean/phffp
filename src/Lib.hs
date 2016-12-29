@@ -363,3 +363,11 @@ mySquishMapFold f = foldr ((++) . f) []
 
 mySquishFold' :: [[a]] -> [a]
 mySquishFold' = mySquishMapFold id
+
+myMaximumByFold :: (a -> a -> Ordering) -> [a] -> a
+myMaximumByFold f [x] = x
+myMaximumByFold f (x:xs) = foldr (\x y -> if f x y == GT then x else y) x xs
+
+myMinimumByFold :: (a -> a -> Ordering) -> [a] -> a
+myMinimumByFold f [x] = x
+myMinimumByFold f (x:xs) = foldr (\x y -> if f x y == LT then x else y) x xs
