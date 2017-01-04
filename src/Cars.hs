@@ -1,5 +1,8 @@
 module Cars where
 
+data Size = Size Double Double Double
+  deriving (Eq, Show)
+
 data Price = Price Integer
   deriving (Eq, Show)
 
@@ -16,5 +19,19 @@ data Airline =
   deriving (Eq, Show)
 
 data Vehicle = Car Manufacturer Price
-  | Plane Airline
+  | Plane Airline Size
   deriving (Eq, Show)
+
+isCar :: Vehicle -> Bool
+isCar (Car _ _) = True
+isCar _ = False
+
+isPlane :: Vehicle -> Bool
+isPlane (Plane _ _) = True
+isPlane _ = False
+
+areCars :: [Vehicle] -> [Bool]
+areCars = map isCar
+
+getManu :: Vehicle -> Manufacturer
+getManu (Car manufacturer _) = manufacturer
