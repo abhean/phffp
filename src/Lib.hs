@@ -2,6 +2,8 @@ module Lib where
 
 import Mood
 import Data.Char
+import Data.List
+import Data.List.Split
 
 someFunc :: IO ()
 someFunc = print $ changeMood Blah
@@ -331,11 +333,11 @@ wordsAvgLength x = fromIntegral (sumWordsLengths x) / fromIntegral (numWords x)
   where sumWordsLengths = sum . map length . words
         numWords = length . words
 
-myAndFold :: [Bool] -> Bool
-myAndFold = foldr (&&) True
-
-myOrFold :: [Bool] -> Bool
-myOrFold = foldr (||) False
+--myAndFold :: [Bool] -> Bool
+--myAndFold = foldr (&&) True
+--
+--myOrFold :: [Bool] -> Bool
+--myOrFold = foldr (||) False
 
 myAnyFold :: (a -> Bool) -> [a] -> Bool
 myAnyFold f = foldr ((||) . f) False
@@ -355,8 +357,8 @@ myMapFold f = foldr ((:) . f) []
 myFilterFold :: (a -> Bool) -> [a] -> [a]
 myFilterFold p = foldr (\x acc -> if p x then x:acc else acc) []
 
-mySquishFold :: [[a]] -> [a]
-mySquishFold = foldr (++) []
+--mySquishFold :: [[a]] -> [a]
+--mySquishFold = foldr (++) []
 
 mySquishMapFold :: (a -> [b]) -> [a] -> [b]
 mySquishMapFold f = foldr ((++) . f) []
@@ -371,3 +373,23 @@ myMaximumByFold f (x:xs) = foldr (\x y -> if f x y == GT then x else y) x xs
 myMinimumByFold :: (a -> a -> Ordering) -> [a] -> a
 myMinimumByFold f [x] = x
 myMinimumByFold f (x:xs) = foldr (\x y -> if f x y == LT then x else y) x xs
+
+isSubsequenceOf' :: (Eq a) => [a] -> [a] -> Bool
+isSubsequenceOf' []  _ = True
+isSubsequenceOf'  _ [] = False
+isSubsequenceOf' subsequence@(x:xs) (y:ys) = ((x == y) && isSubsequenceOf' xs ys) || isSubsequenceOf' subsequence ys
+
+capitalizeWord :: String -> String
+capitalizeWord [] = []
+capitalizeWord (x:xs) = toUpper x : xs
+
+capitalizeWords :: String -> [(String, String)]
+capitalizeWords = map (\word -> (word, capitalizeWord word)) . words
+
+capitalizeParagraph :: String -> String
+capitalizeParagraph = intercalate "." . map capitalizeFirstWord . splitOn "."
+  where capitalizeFirstWord "" = ""
+        capitalizeFirstWord s@(x:xs)
+          | isAsciiUpper x = s
+          | isAsciiLower x = toUpper x : xs
+          | otherwise = x : capitalizeFirstWord xs
