@@ -393,3 +393,30 @@ capitalizeParagraph = intercalate "." . map capitalizeFirstWord . splitOn "."
           | isAsciiUpper x = s
           | isAsciiLower x = toUpper x : xs
           | otherwise = x : capitalizeFirstWord xs
+
+replaceThe :: String -> String
+replaceThe = unwords . map (\w -> if w == "the" then "a" else w). words
+
+notThe :: String -> Maybe String
+notThe w
+  | map toLower w == "the" = Nothing
+  | otherwise              = Just w
+
+--replaceThe' :: String -> String
+--replaceThe' = unwords . replaceTheWords . words
+--  where replaceTheWords [] = []
+--        replaceTheWords (w:ws) =
+--          case notThe w of
+--            Nothing -> "a"
+--            Just w' -> w'
+--          : replaceTheWords ws
+
+countTheBeforeVowel :: String -> Integer
+countTheBeforeVowel = countTheWordsBeforeVowel . words
+  where countTheWordsBeforeVowel [] = 0
+        countTheWordsBeforeVowel [w] = 0
+        countTheWordsBeforeVowel (w:ws) = (if isTheBeforeVowel w (head ws) then 1 else 0) + countTheWordsBeforeVowel ws
+          where isTheBeforeVowel w nw = map toLower w == "the" && (toLower . head $ nw) `elem` "aeiou"
+
+countVowels :: String -> Integer
+countVowels = fromIntegral . length . filter ((`elem` "aeiou") . toLower)
