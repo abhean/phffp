@@ -37,3 +37,11 @@ inorder (Node leftTree value rightTree) = inorder leftTree ++ value : inorder ri
 postorder :: BinaryTree a -> [a]
 postorder Leaf = []
 postorder (Node leftTree value rightTree) = postorder leftTree ++ postorder rightTree ++ [value]
+
+unfold :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+unfold f a = case f a of
+                Nothing -> Leaf
+                Just (la, b, ra) -> Node (unfold f la) b (unfold f ra)
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild n = unfold (\x -> if x < n then Just (x + 1, x, x + 1) else Nothing) 0
