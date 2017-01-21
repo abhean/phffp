@@ -30,3 +30,15 @@ unCipherVignere s password = result where
   (result, pass) = foldl' unCipherCharWithNextPassChar ("", cycle password) s
    where unCipherCharWithNextPassChar (result, pass) ' ' = (result ++ " ", pass)
          unCipherCharWithNextPassChar (result, pass) c = (result ++ [offsettedChar (-(letterIndex . head $ pass)) c], tail pass)
+
+cipherUserInput :: (String -> String) -> IO()
+cipherUserInput cipherFunc = do
+  putStrLn "Type a message:"
+  userInput <- getLine
+  putStrLn $ "Ciphered message: " ++ cipherFunc userInput
+
+cipherCaesarUserInput :: IO()
+cipherCaesarUserInput = cipherUserInput (`cipherCaesar` 1)
+
+cipherVignereUserInput :: IO()
+cipherVignereUserInput = cipherUserInput (`cipherVignere` "password")
